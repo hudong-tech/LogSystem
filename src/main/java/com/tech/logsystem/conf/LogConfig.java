@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Properties;
 
 /**
@@ -21,30 +22,69 @@ public class LogConfig {
 
     public final static String configFilePath =  "/Users/phil/work/01 Java/101 项目/LogSystem/src/main/resources/log.properties";
 
+    /**
+     * 配置类
+     */
+    private static HashMap<String, Properties> propsMap = new HashMap<>();
 
-    public static String readProperties(File file, String key) {
 
-        FileInputStream inputStream = null;
-        String resultStr = "";
+    public static String getConf(String key) {
 
-        try {
-            inputStream = new FileInputStream(configFilePath);
-            Properties properties = new Properties();
-            properties.load(inputStream);
-            resultStr = properties.getProperty(key, "");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                inputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
 
-        return resultStr;
+
+        String value = readProperties(new File(configFilePath), key);
+        return value;
     }
 
+
+    /**
+     * 读取配置文件
+     * @param file 文件
+     * @param key 读取的配置项key
+     * @return: java.lang.String
+     * @Author: phil
+     * @Date: 2023/9/1 12:01
+     */
+    public static String readProperties(File file, String key) {
+        String resultProp = "";
+
+
+        // 从缓存中获取配置文件内容
+        Properties properties = propsMap.get(configFilePath);
+
+        // 如果缓存中没有配置文件内容，则更新缓存
+        if (null == properties) {
+            FileInputStream inputStream = null;
+            try {
+                properties = new Properties();
+                inputStream = new FileInputStream(file);
+
+                properties.load(inputStream);
+                propsMap.put(configFilePath,properties);
+                resultProp = properties.getProperty(key, "");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println("未进入缓存");
+        } else {
+            resultProp = properties.getProperty(key, "");
+            System.out.println("进入缓存");
+        }
+
+        return resultProp;
+    }
+
+    /**
+     * 更新缓存
+     * @param file 文件
+     * @return: void
+     * @Author: phil
+     * @Date: 2023/9/1 12:15
+     */
+    private static void pubCache(File file) {
+
+
+    }
 
 
 }

@@ -23,4 +23,15 @@ public class LogSystemConfigTest {
 
     }
 
+    @Test
+    public void testConfigCache() {
+        String value = LogConfig.getConf("test");
+        String hello = LogConfig.getConf("hello");
+        String test1 = LogConfig.getConf("test1");
+        System.out.println(value);
+        System.out.println(hello);
+        System.out.println(test1);
+
+    }
+
 }
