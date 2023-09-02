@@ -18,7 +18,7 @@ public class LogSystemConfigTest {
 
     @Test
     public void configTest() {
-        String value = LogConfig.readProperties(new File(LogConfig.configFilePath), "test");
+        String value = LogConfig.readProperties(new File(LogConfig.configFileName), "test");
         System.out.println(value);
 
     }
@@ -34,4 +34,15 @@ public class LogSystemConfigTest {
 
     }
 
+
+    @Test
+    public void testConfigMultiDir() {
+        String value = LogConfig.getConf("hello");
+        String hello = LogConfig.getConf("test");
+        String test1 = LogConfig.getConf("test1");
+        System.out.println(value);
+        System.out.println(hello);
+        System.out.println(test1);
+
+    }
 }
