@@ -45,4 +45,15 @@ public class LogSystemConfigTest {
         System.out.println(test1);
 
     }
+
+    @Test
+    public void testConfigByDir() {
+        String value = LogConfig.getConf("hello");
+        String hello = LogConfig.getConf("test");
+        String test1 = LogConfig.getConf("test1");
+        System.out.println(value);
+        System.out.println(hello);
+        System.out.println(test1);
+
+    }
 }
