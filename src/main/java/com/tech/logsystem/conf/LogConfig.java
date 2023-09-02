@@ -41,6 +41,19 @@ public class LogConfig {
      * 缓存objects数组中 1位置存放 配置文件的内容
      */
     private final static int PROPERTIES = 1;
+    
+    /**
+     * 
+     * @param key
+ * @param defaultValue
+     * @return: java.lang.String
+     * @Author: phil
+     * @Date: 2023/9/2 19:03
+     */
+    public static String getConfWithDefault(String key, String defaultValue) {
+        String value = getConf(key);
+        return value == null ? defaultValue : value;
+    }
 
 
     /**

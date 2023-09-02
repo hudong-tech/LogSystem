@@ -1,5 +1,7 @@
 package com.tech.logsystem.constant;
 
+import com.tech.logsystem.conf.LogConfig;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,23 +40,23 @@ public final class LogConstant {
     /**
      * 日志级别
      */
-    public static String LOG_LEVEL = null;
+    public static String LOG_LEVEL = LogConfig.getConfWithDefault("LOG_LEVEL", "0,1,2,3,4");
 
     /**
      * 是否输出到控制台
      */
-    public static boolean CONSOLE_PRINT = true;
+    public static boolean CONSOLE_PRINT = Boolean.valueOf(LogConfig.getConfWithDefault("CONSOLE_PRINT", "true"));
 
     /**
      * 当前运行环境的字符集
      */
 
-    public static String CHARSET_NAME = "utf-8";
+    public static String CHARSET_NAME = LogConfig.getConfWithDefault("CHARSET_NAME", "UTF-8");
 
     /**
      * 日志文件路径
      */
-    public static String LOG_PATH = null;
+    public static String LOG_PATH = LogConfig.getConfWithDefault("LOG_PATH","./log");
 
 
     public static Map<String, String> LEVEL_MAP = new HashMap<String, String>() {{

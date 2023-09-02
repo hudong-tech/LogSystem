@@ -1,6 +1,7 @@
 package com.tech.logsystem.conf;
 
 import com.tech.logsystem.conf.LogConfig;
+import com.tech.logsystem.constant.LogConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -54,6 +55,16 @@ public class LogSystemConfigTest {
         System.out.println(value);
         System.out.println(hello);
         System.out.println(test1);
+
+    }
+
+
+    @Test
+    public void testYouFanConfigConstant() {
+        System.out.println(LogConstant.LOG_LEVEL);
+        System.out.println(LogConstant.CONSOLE_PRINT);
+        System.out.println(LogConstant.CHARSET_NAME);
+        System.out.println(LogConstant.LOG_PATH);
 
     }
 }
