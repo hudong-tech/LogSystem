@@ -3,6 +3,7 @@ package com.tech.logsystem;
 import com.tech.logsystem.conf.LogConfig;
 import com.tech.logsystem.constant.LogConstant;
 import com.tech.logsystem.log.LogManage;
+import org.omg.SendingContext.RunTime;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -27,6 +28,22 @@ public class LogSystemApplication {
 
     static {
         logManage = LogManage.getInstance();
+    }
+
+    /**
+     * 钩子函数处理异常退出
+     * @param
+     * @return:
+     * @Author: phil
+     * @Date: 2023/9/3 23:29
+     */
+    private LogSystemApplication() {
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                close();
+            }
+        }));
     }
 
     public static synchronized LogSystemApplication getInstance() {
@@ -148,6 +165,10 @@ public class LogSystemApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(LogSystemApplication.class, args);
+    }
+
+    public static void close() {
+        logManage.close();
     }
 
 }
