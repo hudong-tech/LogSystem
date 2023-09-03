@@ -69,4 +69,36 @@ public class LogItemTest {
             currentBuffer = logItem.getStringBuffersA();
         }
     }
+
+    @Test
+    public void testLogWrite() {
+        LogItem logItem = new LogItem();
+        long currentTime = System.currentTimeMillis();
+        // 下次刷盘时间
+        long nextWriteTime = currentTime + interTime;
+        logItem.setNextWriteTime(nextWriteTime);
+
+        // 模拟已到下次刷盘时间（）
+        //  Thread.sleep(2000);
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        // 模拟缓冲区满后刷盘
+        // long currentCache = logItem.getCurrCacheSize() + 100 * 1024 * 1024;
+        long currentCache = logItem.getCurrCacheSize() + 1024 * 1024;
+        logItem.setCurrLogSize(currentCache);
+
+        currentTime = System.currentTimeMillis();
+        long nextTime = logItem.getNextWriteTime();
+        currentCache = logItem.getCurrLogSize();
+
+        // 执行刷盘满足任意一个条件即可 1，到了下次刷盘时间 2，缓冲区已满
+        if (currentTime >= nextTime || currentCache >= flushCacheSize) {
+            System.out.println("执行刷盘");
+        }
+
+    }
 }
