@@ -49,4 +49,14 @@ public class LogManageTest {
         }
 
     }
+
+    @Test
+    public void testLogManageThread() {
+        LogManage logManage = LogManage.getInstance();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

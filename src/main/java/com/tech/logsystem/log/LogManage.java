@@ -52,8 +52,8 @@ public class LogManage extends Thread{
     private static Object lockObject = new Object();
 
     private LogManage(){
-//        this.setName("LogManage");
-//        this.start();
+        this.setName("LogManage");
+        this.start();
     }
 
     /**
@@ -119,5 +119,18 @@ public class LogManage extends Thread{
         fileList.put(fileName,logItem);
     }
 
-
+    /**
+     * 日志管理线程实现
+     * @param
+     * @return: void
+     * @Author: phil
+     * @Date: 2023/9/3 20:53
+     */
+    @Override
+    public void run() {
+       int i = 0;
+       while(isRun) {
+           System.out.println("测试");
+       }
+    }
 }
