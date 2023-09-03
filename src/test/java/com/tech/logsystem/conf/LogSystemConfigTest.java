@@ -67,4 +67,15 @@ public class LogSystemConfigTest {
         System.out.println(LogConstant.LOG_PATH);
 
     }
+
+    @Test
+    public void testByteAndException() {
+        // 字符串转字节
+        byte[] data = LogConfig.getByteByString("hello world!");
+        for (int i = 0; i < data.length; i++) {
+            System.out.println(data[i]);
+        }
+        // 输出异常信息
+        System.out.println(LogConfig.getStackTraceInfo(new Exception("测试错误")));
+    }
 }

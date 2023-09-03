@@ -1,10 +1,9 @@
 package com.tech.logsystem.conf;
 
+import com.tech.logsystem.constant.LogConstant;
+
 import javax.sound.midi.SoundbankResource;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -196,6 +195,58 @@ public class LogConfig {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 字符串转字节
+     * @param values 字符串
+     * @return: byte[]
+     * @Author: phil
+     * @Date: 2023/9/3 17:18
+     */
+    public static byte[] getByteByString(String values) {
+        byte[] result = null;
+        if (null == values || values.trim().equals("")) {
+            return new byte[0];
+        }
+        try {
+            result = values.getBytes(LogConstant.CHARSET_NAME);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    /**
+     * 获取堆栈信息
+     * @param e 异常对象
+     * @return: java.lang.String
+     * @Author: phil
+     * @Date: 2023/9/3 17:23
+     */
+    public static String getStackTraceInfo(Exception e) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        PrintWriter printWriter = new PrintWriter(out);
+        e.printStackTrace(printWriter);
+        String result = null;
+
+        try{
+            printWriter.flush();
+            out.flush();
+            result = new String(out.toByteArray(), LogConstant.CHARSET_NAME);
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        } finally {
+            printWriter.close();
+            try {
+                out.close();
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }
+        }
+
+        return result;
     }
 
 
