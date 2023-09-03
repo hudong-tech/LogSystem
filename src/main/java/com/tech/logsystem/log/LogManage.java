@@ -86,5 +86,38 @@ public class LogManage extends Thread{
         return "LogManage@" + hashCode();
     }
 
+    /**
+     * 添加日志信息到缓存
+     * @param fileName 文件路径
+     * @param messageLog 日志信息
+     * @return: void
+     * @Author: phil
+     * @Date: 2023/9/3 20:50
+     */
+    public void addLog(String fileName, StringBuffer messageLog) {
+        LogItem logItem = fileList.get(fileName);
+
+        //创建logItem对象
+        if (null == logItem) {
+            synchronized (LogManage.class) {
+                if (null == logItem) {
+                    logItem = new LogItem();
+                    logItem.logFileName = fileName;
+                    logItem.nextWriteTime = System.currentTimeMillis() + INTER_TIME;
+                    fileList.put(fileName, logItem);
+                }
+            }
+        }
+
+        // 保存信息到缓存中
+        if (logItem.currLogBuff == 'A') {
+            logItem.getStringBuffersA().add(messageLog);
+        } else {
+            logItem.getStringBuffersB().add(messageLog);
+        }
+        
+        fileList.put(fileName,logItem);
+    }
+
 
 }
