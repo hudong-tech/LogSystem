@@ -1,20 +1,18 @@
 package com.tech.logsystem.log;
 
 import com.tech.logsystem.conf.LogConfig;
-import lombok.extern.java.Log;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * 日志管理类
- * @className: LogManger
+ * @className: LogManage
  * @description:
  * @author: phil
  * @date: 2023/9/3
  **/
-public class LogManger extends Thread{
+public class LogManage extends Thread{
     /**
      * 文件列表
      */
