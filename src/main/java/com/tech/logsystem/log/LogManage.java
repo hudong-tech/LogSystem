@@ -272,6 +272,19 @@ public class LogManage extends Thread{
        }
     }
 
+    /**
+     * 关闭日志
+     * @param
+     * @return: void
+     * @Author: phil
+     * @Date: 2023/9/3 22:35
+     */
+    public void close() {
+        isRun = false;
+        // 强制刷盘
+        flush(true);
+    }
+
 
 
 }
