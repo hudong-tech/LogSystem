@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -218,6 +219,36 @@ public class LogManage extends Thread{
 
         }
 
+    }
+
+    /**
+     * 刷盘
+     * @param isFlush 是否进行刷盘
+     * @return: void
+     * @Author: phil
+     * @Date: 2023/9/3 22:26
+     */
+    private void flush (boolean isFlush) {
+        long currentTime = System.currentTimeMillis();
+        Iterator<LogItem> iterator = fileList.values().iterator();
+        while(iterator.hasNext()) {
+            LogItem logItem = iterator.next();
+            List<StringBuffer> currentBuffer = null;
+            if (currentTime > logItem.nextWriteTime ||
+                logItem.getCurrCacheSize() > CACHE_SIZE ||
+                isFlush) {
+                char currLogBuff = logItem.getCurrLogBuff();
+                if (currLogBuff == 'A') {
+                    currentBuffer = logItem.stringBuffersA;
+                    logItem.currLogBuff = 'B';
+                } else {
+                    currentBuffer = logItem.stringBuffersB;
+                    logItem.currLogBuff = 'A';
+                }
+                createLogFile(logItem);
+                write2File(logItem.fullLogFilePath, currentBuffer);
+            }
+        }
     }
 
     /**
