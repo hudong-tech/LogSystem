@@ -41,11 +41,53 @@ public class LogConfig {
      * 缓存objects数组中 1位置存放 配置文件的内容
      */
     private final static int PROPERTIES = 1;
-    
+
+    /**
+     * 多种数据类型读取
+     * @param key
+     * @return: java.lang.Integer
+     * @Author: phil
+     * @Date: 2023/9/3 13:45
+     */
+    public static Integer getConfByInt(String key) {
+        String value = getConf(key);
+        // value 是否为 null 或者为空字符串。
+        // value.trim() 它用于删除字符串的开头和结尾的空格字符（包括空格、制表符和换行符等空白字符）
+        return value == null || "".equals(value.trim()) ? null : Integer.valueOf(value);
+    }
+
+    public static Long getConfByLong(String key) {
+        String value = getConf(key);
+        return value == null || "".equals(value.trim()) ? null : Long.valueOf(value);
+    }
+
+    public static Long getConfByLong(String key, Long defaultValue) {
+        String value = getConf(key);
+        return value == null || "".equals(value.trim()) ? defaultValue : Long.valueOf(value);
+    }
+
+    public static Short getConfByShort(String key) {
+        String value = getConf(key);
+        return value == null || "".equals(value.trim()) ? null : Short.valueOf(value);
+    }
+
+    public static Float getConfByFloat(String key) {
+        String value = getConf(key);
+        return value == null || "".equals(value.trim()) ? null : Float.valueOf(value);
+
+    }
+
+    public static Double getConfByDouble(String key) {
+        String value = getConf(key);
+        return value == null || "".equals(value.trim()) ? null : Double.valueOf(value);
+
+    }
+
+
     /**
      * 
      * @param key
- * @param defaultValue
+     * @param defaultValue
      * @return: java.lang.String
      * @Author: phil
      * @Date: 2023/9/2 19:03
