@@ -3,6 +3,7 @@ package com.tech.logsystem.log;
 import com.tech.logsystem.conf.LogConfig;
 import com.tech.logsystem.constant.LogConstant;
 
+import javax.security.auth.login.LoginContext;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -262,7 +263,15 @@ public class LogManage extends Thread{
     public void run() {
        int i = 0;
        while(isRun) {
-           System.out.println("测试");
+           flush(false);
+           i++;
+           if (i % 100 == 0) {
+               LogConstant.LOG_LEVEL = LogConfig.getConfWithDefault("LOG_LEVEL", "INFO");
+               i = 0;
+           }
        }
     }
+
+
+
 }
