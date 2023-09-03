@@ -37,4 +37,54 @@ public class LogManage extends Thread{
      * 是否运行多线程，默认为是
      */
     public static boolean isRun = true;
+
+    /**
+     * 单例
+     * volatile 其主要作用是告诉编译器和虚拟机，这个变量可能会被多个线程同时访问，
+     * 因此需要特别小心处理，以确保线程之间的可见性和有序性。
+     * volatile主要有三个作用：可见性，禁止指令重排序，不能保证原子性
+     */
+    private volatile static LogManage singleLogManage = null;
+
+    /**
+     * 单例锁
+     */
+    private static Object lockObject = new Object();
+
+    private LogManage(){
+//        this.setName("LogManage");
+//        this.start();
+    }
+
+    /**
+     * 获取单例对象
+     * @param
+     * @return: com.tech.logsystem.log.LogManage
+     * @Author: phil
+     * @Date: 2023/9/3 16:45
+     */
+    public static LogManage getInstance() {
+       if(null == singleLogManage) {
+            synchronized (lockObject) {
+                if (null == singleLogManage) {
+                    singleLogManage = new LogManage();
+                }
+            }
+       }
+       return singleLogManage;
+    }
+
+    /**
+     * 自定义打印格式
+     * @param
+     * @return: java.lang.String
+     * @Author: phil
+     * @Date: 2023/9/3 17:14
+     */
+    @Override
+    public String toString() {
+        return "LogManage@" + hashCode();
+    }
+
+
 }
