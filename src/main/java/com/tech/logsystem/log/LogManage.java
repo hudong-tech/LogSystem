@@ -2,6 +2,11 @@ package com.tech.logsystem.log;
 
 import com.tech.logsystem.conf.LogConfig;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -117,6 +122,49 @@ public class LogManage extends Thread{
         }
         
         fileList.put(fileName,logItem);
+    }
+    
+    /**
+     * 日志输出到文件
+     * @param filePath 文件路径
+     * @param buffers 缓冲
+     * @return: int 信息字节大小
+     * @Author: phil
+     * @Date: 2023/9/3 20:58
+     */
+
+    public static int write2File(String filePath, List<StringBuffer> buffers) {
+        File file = new File(filePath);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+
+        int size = 0;
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(filePath, true);
+            for (int i = 0; i < buffers.size(); i++) {
+                StringBuffer stringBuffer = buffers.get(i);
+                byte[] bytes = LogConfig.getByteByString(stringBuffer.toString());
+                size += bytes.length;
+                out.write(bytes);
+            }
+        } catch (Exception e2) {
+            e2.printStackTrace();
+        } finally {
+            try {
+                out.close();
+            } catch (IOException e3) {
+                e3.printStackTrace();
+            }
+            buffers.clear();
+        }
+
+        return size;
     }
 
     /**
