@@ -3,7 +3,9 @@ package com.tech.logsystem.conf;
 import com.tech.logsystem.log.LogManage;
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static org.junit.Assert.assertSame;
 
@@ -58,5 +60,15 @@ public class LogManageTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void testTime() {
+        Date currentDate = new Date();
+        SimpleDateFormat dateFormat_1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println(dateFormat_1.format(currentDate));
+        System.out.println(new SimpleDateFormat("yyyy-MM-dd").format(currentDate));
+        System.out.println(new SimpleDateFormat("HH:mm:ss").format(currentDate));
+        System.out.println(new SimpleDateFormat("yyyy==MM==dd").format(currentDate));
     }
 }
