@@ -70,5 +70,6 @@ public class LogManageTest {
         System.out.println(new SimpleDateFormat("yyyy-MM-dd").format(currentDate));
         System.out.println(new SimpleDateFormat("HH:mm:ss").format(currentDate));
         System.out.println(new SimpleDateFormat("yyyy==MM==dd").format(currentDate));
+        System.out.println(new SimpleDateFormat("yyyyMMddHHmmss").format(currentDate));
     }
 }

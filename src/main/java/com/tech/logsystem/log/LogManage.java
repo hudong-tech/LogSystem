@@ -1,11 +1,14 @@
 package com.tech.logsystem.log;
 
 import com.tech.logsystem.conf.LogConfig;
+import com.tech.logsystem.constant.LogConstant;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -165,6 +168,56 @@ public class LogManage extends Thread{
         }
 
         return size;
+    }
+
+
+    /**
+     * 创建日志文件，超过大小则需拆分文件
+     * @param logItem 日志对象
+     * @return: void
+     * @Author: phil
+     * @Date: 2023/9/3 22:15
+     */
+    private void createLogFile(LogItem logItem) {
+        String currentDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        //判断日志根路径是否存在，不存在则创建
+        File rootDir = new File(LogConstant.LOG_PATH);
+        if (!rootDir.exists() || !rootDir.isDirectory()) {
+            rootDir.mkdirs();
+        }
+        //如果超过单个文件大小，则拆分文件
+        if(null != logItem.fullLogFilePath && logItem.fullLogFilePath.length() >0 && logItem.currLogSize > SINGLE_FILE_SIZE) {
+            File oldFile = new File(logItem.fullLogFilePath);
+            if (oldFile.exists()) {
+                String newFileName = LogConstant.LOG_PATH + "/" + logItem.lastPCDate + "/" + logItem.logFileName + "_" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".log";
+                File newFile = new File(newFileName);
+                // 将一个文件或目录从一个名称重命名为另一个名称。它返回一个布尔值，指示是否成功重命名。
+                boolean flag = oldFile.renameTo(newFile);
+                System.out.println("日志已自动备份为 " + newFile.getName() + ( flag ? "成功!" : "失败!" ) );
+
+                logItem.fullLogFilePath = "";
+                logItem.currLogSize = 0;
+            }
+        }
+
+        // 创建文件
+        if (null == logItem.fullLogFilePath || logItem.fullLogFilePath.length() <= 0 || logItem.equals(currentDate)) {
+            String sDir = LogConstant.LOG_PATH + "/" + currentDate;
+            File file = new File(sDir);
+            if (!file.exists()) {
+                file.mkdir();
+            }
+            logItem.fullLogFilePath = sDir + "/" + logItem.logFileName + ".log";
+            logItem.lastPCDate = currentDate;
+            file = new File(logItem.fullLogFilePath);
+            if (file.exists()) {
+                logItem.currLogSize = file.length();
+            } else {
+                logItem.currLogSize = 0;
+            }
+
+        }
+
     }
 
     /**
