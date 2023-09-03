@@ -125,8 +125,7 @@ public class LogManage extends Thread{
         } else {
             logItem.getStringBuffersB().add(messageLog);
         }
-        
-        fileList.put(fileName,logItem);
+
     }
     
     /**
